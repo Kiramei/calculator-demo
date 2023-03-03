@@ -1,0 +1,90 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <title>计算器</title>
+</head>
+
+<body>
+    <div class="prevBox">&nbsp;</div>
+    <div class="numBox">0</div>
+    <div class="operation">
+        <div class="container">
+            <div class="button" onclick="func_CE()">
+                <div class="text">CE</div>
+            </div>
+            <div class="button" onclick="func_C()">
+                <div class="text">C</div>
+            </div>
+            <div class="button" onclick="func_DEL()">
+                <div class="text">Del</div>
+            </div>
+            <div class="button operator" onclick="func_divide()">
+                <div class="text">÷</div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="button number" onclick="func_type(7)">
+                <div class="text">7</div>
+            </div>
+            <div class="button number" onclick="func_type(8)">
+                <div class="text">8</div>
+            </div>
+            <div class="button number" onclick="func_type(9)">
+                <div class="text">9</div>
+            </div>
+            <div class="button operator" onclick="func_multiply()">
+                <div class="text">×</div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="button number" onclick="func_type(4)">
+                <div class="text">4</div>
+            </div>
+            <div class="button number" onclick="func_type(5)">
+                <div class="text">5</div>
+            </div>
+            <div class="button number" onclick="func_type(6)">
+                <div class="text">6</div>
+            </div>
+            <div class="button operator" onclick="func_subtract()">
+                <div class="text">-</div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="button number" onclick="func_type(1)">
+                <div class="text">1</div>
+            </div>
+            <div class="button number" onclick="func_type(2)">
+                <div class="text">2</div>
+            </div>
+            <div class="button number" onclick="func_type(3)">
+                <div class="text">3</div>
+            </div>
+            <div class="button operator" onclick="func_add()">
+                <div class="text">+</div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="button number" onclick="func_inverse()">
+                <div class="text">+/-</div>
+            </div>
+            <div class="button number" onclick="func_type(0)">
+                <div class="text">0</div>
+            </div>
+            <div class="button number" onclick="func_point()">
+                <div class="text">.</div>
+            </div>
+            <div class="button blue operator" onclick="func_equal()">
+                <div class="text">=</div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

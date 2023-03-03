@@ -1,0 +1,106 @@
+/*
+    全局设置
+*/
+
+:root {
+    /*  Theme color settings  */
+    --bg-color: #f3f3f3;
+    --button-grey: #f9f9f9;
+    --button-light: #ffffff;
+    --button-hover: #f7f7f7;
+    --button-pressed: #f1f1f1;
+    --button-border: #e5e5e5;
+    --text-color-black: #1a1a1a;
+    --text-color-grey: #646060;
+    --text-color-white: #ffffff;
+    --button-blue-normal: #0067c0;
+    --button-blue-hover: #1974c5;
+    --button-blue-active: #1368b2;
+
+    /* Theme variable settings */
+    --button-hover-opacity: 0.65;
+    --button-border-radius: 5px;
+}
+
+body {
+    margin: 10px;
+    background-color: var(--bg-color);
+    user-select: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+}
+
+.prevBox {
+    width: 100%;
+    text-align: right;
+    color: var(--text-color-grey);
+    font-size: 20px;
+    height: 27px;
+}
+
+.numBox {
+    width: 100%;
+    color: var(--text-color-black);
+    text-align: right;
+    font-size: 45px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+}
+
+.operation {
+    height: calc(100% - 95px);
+}
+
+.container {
+    margin-top: 5px;
+    width: 100%;
+    column-count: 4;
+    column-gap: 10px;
+    height: calc(20% - 1.6667px * 2);
+}
+
+
+
+.button {
+    width: 100%;
+    height: calc(100% - 4px);
+    background-color: var(--button-grey);
+    border: solid var(--button-border) 2px;
+    border-radius: var(--button-border-radius);
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button:hover {
+    /* opacity: var(--button-hover-opacity); */
+    background-color: var(--button-hover);
+}
+
+.button:active {
+    background-color: var(--button-pressed);
+}
+
+.number {
+    background-color: var(--button-light);
+}
+
+.operator {
+    font-size: 30px;
+    font-weight: 200;
+}
+
+.blue {
+    background-color: var(--button-blue-normal);
+    color: var(--text-color-white);
+}
+
+.blue:hover {
+    background-color: var(--button-blue-hover);
+}
+
+.blue:active {
+    background-color: var(--button-blue-active);
+}
