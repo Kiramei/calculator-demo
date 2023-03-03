@@ -1,17 +1,16 @@
-
-var prev_number = 0
-var cur_number = 0
-var cur_float = 1
+/**
+ * @author kiramei
+ * @alias okCal
+ */
+var op1 = 0, op2 = 0
 var op_code = 0
+var lastAnswer = 0
 
-var neg = false
-var pre_neg = false
+var num_string = ''
 var hasPoint = false
-var hasOperator = false
-var hasCleaned = false
 
-var prevBox = document.querySelector('.prevBox');
-var numBox = document.querySelector('.numBox');
+var prevBox = document.querySelector('.prevBox')
+var numBox = document.querySelector('.numBox')
 
 onkeydown = (key) => {
     if ('1234567890'.indexOf(key.key) != -1)
@@ -32,36 +31,23 @@ onkeydown = (key) => {
         func_point()
 }
 
+const func_type = (num) => {
+    num_string += num
+    notify_change()
+}
+
 const func_CE = () => {
-    cur_number = 0
-    cur_float = 1
-    hasPoint = false
+    num_string = ''
     notify_change()
 }
 
 const func_C = () => {
-    prev_number = 0
-    cur_number = 0
-    cur_float = 1
+    op1 = 0, op2 = 0
     op_code = 0
-
-    neg = false
-    pre_neg = false
+    lastAnswer = 0
+    num_string = ''
     hasPoint = false
-    hasOperator = false
-    hasCleaned = false
     prevBox.textContent = ``
-    notify_change()
-}
-
-const func_DEL = () => {
-    if (hasPoint)
-        if (cur_float == 1)
-            hasPoint = false
-        else
-            cur_float = Math.floor(cur_float / 10)
-    else
-        cur_number = Math.floor(cur_number / 10)
     notify_change()
 }
 
@@ -81,65 +67,41 @@ const func_divide = () => {
     prepare(4)
 }
 
-const func_inverse = () => {
-    cur_number *= -1.0
-    neg = !neg
-    notify_change()
-}
-
-const func_point = () => {
-    if (!hasPoint) {
-        hasPoint = true
-        notify_change()
-    }
-}
-
-const func_type = (num) => {
-    if (hasOperator && !hasCleaned) {
-        func_CE()
-        hasCleaned = true
-    }
-    if (num + cur_number * 10 > 1e15
-        || num + cur_float * 10 > 1e15) return
-    if (hasPoint)
-        cur_float = num + cur_float * 10
-    else
-        cur_number = num + cur_number * 10
-    notify_change();
-}
-
 const func_equal = () => {
+    if (num_string.charAt(num_string.length - 1) == '.')
+        num_string = num_string.substring(0, num_string.length - 1)
     if (op_code == 0) {
-        prevBox.textContent = getStringNumber() + ' = '
-        prev_number = getRealNumber()
+        prevBox.textContent = lastAnswer + ' = '
+        num_string = lastAnswer
     }
+    notify_change()
     if (processType(op_code)) {
-        hasOperator = true
-        hasCleaned = false
+        notify_change()
+        num_string = ''
+        hasPoint = false
         op_code = 0
     }
 }
 
 const prepare = (code) => {
     const op_set = ' +-×÷'
-    prevBox.textContent = `${getStringNumber()} ${op_set[code]} `
-    console.log('prepare'+neg)
-    prev_number = getRealNumber() * (neg ? -1 : 1)
+    if (num_string === '') num_string = '0'
+    if (typeof (lastAnswer) === 'string')
+        op1 = parseFloat(lastAnswer)
+    else
+        op1 = parseFloat(num_string)
+    prevBox.textContent = `${op1} ${op_set[code]} `
+    num_string = ''
     op_code = code
-    hasPoint = false
-    hasOperator = true
-    hasCleaned = false
-    neg = false
 }
 
 const processType = (code) => {
-    if (code == 0) return true;
-    prevBox.textContent += getStringNumber() + ' = ';
-    let answer;
-    let op1 = parseFloat(prev_number)
-    let op2 = parseFloat(getRealNumber())
-
-    console.log(`${op1} ${op2}`)
+    if (!num_string.length || code == 0) {
+        lastAnswer = num_string
+        return true
+    } prevBox.textContent += num_string + ' = '
+    let answer
+    op2 = parseFloat(num_string)
 
     if (code == 1)
         answer = op1 + op2
@@ -150,56 +112,52 @@ const processType = (code) => {
     else if (code == 4)
         if (op2 == 0) {
             alert('除数不能为零！')
-            return false;
+            return false
         } else answer = op1 / op2
-    neg = answer < 0 ? true : false
-    putAnswer(answer)
-    return true;
+    lastAnswer = num_string = answer + ''
+    return true
 }
 
-const putAnswer = (ans) => {
-    let mAns = ans + '';
-    if (mAns.indexOf('.') != -1) {
-        cur_number = parseInt(mAns.substring(0, mAns.indexOf('.')))
-        cur_float = parseInt('1' + mAns.substring(mAns.indexOf('.') + 1))
-        hasPoint = true
-    } else
-        cur_number = parseInt(mAns)
+const func_DEL = () => {
+    let last = num_string.length - 1
+    if (num_string.charAt(last) === '.') hasPoint = false
+    num_string = num_string.substring(0, last)
     notify_change()
 }
 
+const func_inverse = () => {
+    if (!num_string.length) return
+    if (num_string.indexOf('-') === -1)
+        num_string = '-' + num_string
+    else
+        num_string = num_string.substring(1)
+    notify_change()
+}
+
+const func_point = () => {
+    if (!hasPoint) {
+        hasPoint = true
+        num_string += '.'
+        notify_change()
+    }
+}
+
 const notify_change = () => {
-    if (cur_number == 0 && cur_float == 0) {
+    if (!num_string.length) {
         numBox.textContent = '0'
-        return '0'
+        return
     }
-    let num_string = cur_number + ""
-    let int_part = ""
-    let float_part = ""
-    if (hasPoint) {
-        float_part = '' + cur_float
-        float_part = float_part.substring(1, float_part.length)
-    }
-    let pre = num_string;
-    if (pre.indexOf('-') != -1) {
-        pre = pre.substring(1)
-    }
+    if (num_string.charAt(0) === '.')
+        num_string = '0' + num_string
+    let pre = num_string
+    if (pre.indexOf('.') !== -1)
+        pre = pre.substring(0, pre.indexOf('.'))
+    if (pre.indexOf('-') !== -1) pre = pre.substring(1)
+    let int_part = ''
     if (pre.length % 3 != 0)
         int_part += pre.substring(0, pre.length % 3) + ','
     for (let i = pre.length % 3; i < pre.length; i += 3)
         int_part += pre.substring(i, i + 3) + ','
     int_part = int_part.substring(0, int_part.length - 1)
-    numBox.textContent = (neg ? '-' : '') + int_part + (hasPoint ? '.' + float_part : '')
-    return (neg && cur_number == 0 ? '-' : '') + cur_number + (hasPoint ? '.' + float_part : '')
-}
-
-const getRealNumber = () => {
-    let mFloat = cur_float
-    while (Math.floor(mFloat))
-        mFloat /= 10
-    return (cur_number + (mFloat * 10 - 1)).toPrecision(15);
-}
-
-const getStringNumber = () => {
-    return notify_change()
+    numBox.textContent = num_string.replace(pre, int_part)
 }

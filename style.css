@@ -31,7 +31,7 @@ body {
 }
 
 .prevBox {
-    width: 100%;
+    width: 96%;
     text-align: right;
     color: var(--text-color-grey);
     font-size: 20px;
@@ -39,7 +39,7 @@ body {
 }
 
 .numBox {
-    width: 100%;
+    width: 98%;
     color: var(--text-color-black);
     text-align: right;
     font-size: 45px;
